@@ -67,15 +67,18 @@ namespace Booking.Application.Services.Implementation.HotelAggregate
 
         public async Task<bool> CreateHotel(CreateHotelDto input)
         {
-            await _hotelRepository.CreateAsync(new Hotel
+            if(input.MaxPrice > input.MinPrice)
             {
-                Address = input.Address,
-                Latitude = input.Latitude,
-                Longtitude = input.Longtitude,
-                MaxPrice = input.MaxPrice,
-                Name = input.Name,
-                MinPrice = input.MinPrice
-            });
+                await _hotelRepository.CreateAsync(new Hotel
+                {
+                    Address = input.Address,
+                    Latitude = input.Latitude,
+                    Longtitude = input.Longtitude,
+                    MaxPrice = input.MaxPrice,
+                    Name = input.Name,
+                    MinPrice = input.MinPrice
+                });
+            }
             return await _hotelRepository.SaveChangesAsync();
         }
 

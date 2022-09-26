@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Booking.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220916124835_InitialCreate")]
+    [Migration("20220926121109_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -74,32 +74,6 @@ namespace Booking.Infrastructure.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("Booking.Domain.Entities.RoomAggregate.NumberOfRoomsByTypes", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<int>("BedType")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("HotelId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("NumberOfRooms")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("RoomType")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("HotelId");
-
-                    b.ToTable("NumberOfRoomsByTypes");
-                });
-
             modelBuilder.Entity("Booking.Domain.Entities.RoomAggregate.Room", b =>
                 {
                     b.Property<int>("Id")
@@ -129,6 +103,9 @@ namespace Booking.Infrastructure.Migrations
                     b.Property<bool>("MiniBar")
                         .HasColumnType("boolean");
 
+                    b.Property<int>("NumberOfRooms")
+                        .HasColumnType("integer");
+
                     b.Property<string>("RoomType")
                         .IsRequired()
                         .HasColumnType("text");
@@ -157,17 +134,6 @@ namespace Booking.Infrastructure.Migrations
                     b.Navigation("Room");
                 });
 
-            modelBuilder.Entity("Booking.Domain.Entities.RoomAggregate.NumberOfRoomsByTypes", b =>
-                {
-                    b.HasOne("Booking.Domain.Entities.HotelAggregate.Hotel", "Hotel")
-                        .WithMany("NumberOfRooms")
-                        .HasForeignKey("HotelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Hotel");
-                });
-
             modelBuilder.Entity("Booking.Domain.Entities.RoomAggregate.Room", b =>
                 {
                     b.HasOne("Booking.Domain.Entities.HotelAggregate.Hotel", "Hotel")
@@ -181,8 +147,6 @@ namespace Booking.Infrastructure.Migrations
 
             modelBuilder.Entity("Booking.Domain.Entities.HotelAggregate.Hotel", b =>
                 {
-                    b.Navigation("NumberOfRooms");
-
                     b.Navigation("Rooms");
                 });
 

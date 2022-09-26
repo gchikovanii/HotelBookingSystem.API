@@ -1,12 +1,9 @@
 using Booking.Application.Services.Abstraction.HotelAggregate;
-using Booking.Application.Services.Abstraction.OrdersAggregate;
-using Booking.Application.Services.Abstraction.RoomAggregate;
 using Booking.Application.Services.Implementation.HotelAggregate;
-using Booking.Application.Services.Implementation.OrdersAggregate;
-using Booking.Application.Services.Implementation.RoomAggregate;
 using Booking.Infrastructure.Context;
 using Booking.Infrastructure.Repository.Abstraction;
 using Booking.Infrastructure.Repository.Implementation;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -38,14 +35,11 @@ namespace Booking.API
             services.AddControllers();
             services.AddSwaggerGen();
             services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnectionString")));
+            services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
             services.AddTransient<IHotelRepository, HotelRepository>();
             services.AddTransient<IRoomRepository, RoomRepository>();
-            services.AddTransient<INumberOfRoomsByTypesRepository, NumberOfRoomsByTypesRepository>();
             services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddTransient<IHotelService, HotelService>();
-            services.AddTransient<IRoomService, RoomService>();
-            services.AddTransient<INumberOfRoomsService, NumberOfRoomsService>();
-            services.AddTransient<IOrderService, OrderService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

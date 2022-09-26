@@ -38,12 +38,6 @@ namespace Booking.Infrastructure.Context
                 .WithOne(i => i.Room)
                 .HasForeignKey(i => i.RoomId);
 
-            builder.Entity<Hotel>()
-                .HasMany(i => i.NumberOfRooms)
-                .WithOne(i => i.Hotel)
-                .HasForeignKey(i => i.HotelId);
-
-
         }
 
 

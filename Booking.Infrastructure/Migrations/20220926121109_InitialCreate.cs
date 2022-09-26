@@ -27,28 +27,6 @@ namespace Booking.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "NumberOfRoomsByTypes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    NumberOfRooms = table.Column<int>(type: "integer", nullable: false),
-                    RoomType = table.Column<int>(type: "integer", nullable: false),
-                    BedType = table.Column<int>(type: "integer", nullable: false),
-                    HotelId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_NumberOfRoomsByTypes", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_NumberOfRoomsByTypes_Hotels_HotelId",
-                        column: x => x.HotelId,
-                        principalTable: "Hotels",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Rooms",
                 columns: table => new
                 {
@@ -63,6 +41,7 @@ namespace Booking.Infrastructure.Migrations
                     Balcony = table.Column<bool>(type: "boolean", nullable: false),
                     BedType = table.Column<string>(type: "text", nullable: false),
                     RoomType = table.Column<string>(type: "text", nullable: false),
+                    NumberOfRooms = table.Column<int>(type: "integer", nullable: false),
                     HotelId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -98,11 +77,6 @@ namespace Booking.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_NumberOfRoomsByTypes_HotelId",
-                table: "NumberOfRoomsByTypes",
-                column: "HotelId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Orders_RoomId",
                 table: "Orders",
                 column: "RoomId");
@@ -115,9 +89,6 @@ namespace Booking.Infrastructure.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "NumberOfRoomsByTypes");
-
             migrationBuilder.DropTable(
                 name: "Orders");
 
