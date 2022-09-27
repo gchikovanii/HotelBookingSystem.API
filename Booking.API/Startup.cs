@@ -1,5 +1,6 @@
 using Booking.Application.Services.Abstraction.HotelAggregate;
 using Booking.Application.Services.Implementation.HotelAggregate;
+using Booking.Domain.Entities.UserAggregate;
 using Booking.Infrastructure.Context;
 using Booking.Infrastructure.Repository.Abstraction;
 using Booking.Infrastructure.Repository.Implementation;
@@ -36,10 +37,12 @@ namespace Booking.API
             services.AddSwaggerGen();
             services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnectionString")));
             services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddScoped<IHotelService, HotelService>();
             services.AddTransient<IHotelRepository, HotelRepository>();
             services.AddTransient<IRoomRepository, RoomRepository>();
             services.AddTransient<IOrderRepository, OrderRepository>();
-            services.AddTransient<IHotelService, HotelService>();
+            services.AddTransient<IUserRepository,UserRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

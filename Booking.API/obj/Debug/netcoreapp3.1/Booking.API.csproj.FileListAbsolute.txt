@@ -74,3 +74,8 @@ D:\Full-Stack\Visual studio 2022\MixedTasks\Asp.Net Core\Booking.API\Booking.API
 D:\Full-Stack\Visual studio 2022\MixedTasks\Asp.Net Core\Booking.API\Booking.API\obj\Debug\netcoreapp3.1\Booking.API.dll
 D:\Full-Stack\Visual studio 2022\MixedTasks\Asp.Net Core\Booking.API\Booking.API\obj\Debug\netcoreapp3.1\Booking.API.pdb
 D:\Full-Stack\Visual studio 2022\MixedTasks\Asp.Net Core\Booking.API\Booking.API\obj\Debug\netcoreapp3.1\Booking.API.genruntimeconfig.cache
+D:\Full-Stack\Visual studio 2022\MixedTasks\Asp.Net Core\Booking.API\Booking.API\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Cryptography.Internal.dll
+D:\Full-Stack\Visual studio 2022\MixedTasks\Asp.Net Core\Booking.API\Booking.API\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+D:\Full-Stack\Visual studio 2022\MixedTasks\Asp.Net Core\Booking.API\Booking.API\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+D:\Full-Stack\Visual studio 2022\MixedTasks\Asp.Net Core\Booking.API\Booking.API\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Identity.Core.dll
+D:\Full-Stack\Visual studio 2022\MixedTasks\Asp.Net Core\Booking.API\Booking.API\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Identity.Stores.dll

@@ -1,6 +1,9 @@
 ﻿using Booking.Domain.Entities.HotelAggregate;
 using Booking.Domain.Entities.OrderAggregate;
 using Booking.Domain.Entities.RoomAggregate;
+using Booking.Domain.Entities.UserAggregate;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using System;
@@ -9,7 +12,7 @@ using System.Text;
 
 namespace Booking.Infrastructure.Context
 {
-    public class ApplicationDbContext : DbContext 
+    public class ApplicationDbContext : IdentityDbContext<AppUser,AppRole,int,IdentityUserClaim<int>,AppUserRole,IdentityUserLogin<int>,IdentityRoleClaim<int>,IdentityUserToken<int>> 
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options): base(options)
         {
@@ -37,6 +40,18 @@ namespace Booking.Infrastructure.Context
                 .HasMany(i => i.Orders)
                 .WithOne(i => i.Room)
                 .HasForeignKey(i => i.RoomId);
+
+            builder.Entity<AppUser>()
+                .HasMany(i => i.AppUserRoles)
+                .WithOne(i => i.AppUser)
+                .HasForeignKey(i => i.UserId);
+
+            builder.Entity<AppRole>()
+                .HasMany(i => i.AppUserRoles)
+                .WithOne(i => i.AppRole)
+                .HasForeignKey(i => i.RoleId);
+
+
 
         }
 

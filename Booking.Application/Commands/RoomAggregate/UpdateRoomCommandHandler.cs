@@ -30,8 +30,10 @@ namespace Booking.Application.Commands.RoomAggregate
                 room.MiniBar = request.MiniBar;
                 room.Sofa = request.Sofa;
                 room.TV = request.TV;
-                room.HotelId = request.HotelId;
-                room.NumberOfRooms = request.NumberOfRooms;
+                if(room.HotelId != 0)
+                    room.HotelId = request.HotelId;
+                if(room.NumberOfRooms != 0)
+                    room.NumberOfRooms = request.NumberOfRooms;
 
                 _roomRepository.Update(room);
                 return await _roomRepository.SaveChangesAsync();
