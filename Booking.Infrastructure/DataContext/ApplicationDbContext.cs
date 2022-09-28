@@ -42,16 +42,22 @@ namespace Booking.Infrastructure.Context
                 .HasForeignKey(i => i.RoomId);
 
             builder.Entity<AppUser>()
+                .HasMany(i => i.Orders)
+                .WithOne(i => i.AppUser)
+                .HasForeignKey(i => i.AppUserId);
+
+            builder.Entity<AppUser>()
                 .HasMany(i => i.AppUserRoles)
                 .WithOne(i => i.AppUser)
                 .HasForeignKey(i => i.UserId);
-
             builder.Entity<AppRole>()
                 .HasMany(i => i.AppUserRoles)
                 .WithOne(i => i.AppRole)
                 .HasForeignKey(i => i.RoleId);
 
-
+            builder.Entity<AppUser>()
+                .HasMany(i => i.Hotels)
+                .WithMany(i => i.Users);
 
         }
 

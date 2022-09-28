@@ -1,4 +1,5 @@
 ﻿using Booking.Infrastructure.Repository.Abstraction;
+using Booking.Infrastructure.Repository.Implementation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -12,23 +13,29 @@ namespace Booking.Application.Commands.OrderAggregate
     public class UpdateOrderCommandHandler : IRequestHandler<UpdateOrderCommand, bool>
     {
         private readonly IOrderRepository _orderRepository;
-        public UpdateOrderCommandHandler(IOrderRepository orderRepository)
+        private readonly IUserRepository _userRepository;
+        public UpdateOrderCommandHandler(IOrderRepository orderRepository, IUserRepository userRepository)
         {
             _orderRepository = orderRepository;
+            _userRepository = userRepository;
         }
         public async Task<bool> Handle(UpdateOrderCommand request, CancellationToken cancellationToken)
         {
-            var order = await _orderRepository.GetQuery(i => i.Id == request.Id).SingleOrDefaultAsync();
-            if(order != null)
+            var user = _userRepository.GetById(request.UserId);
+            if(user != null)
             {
-                if (request.CheckIn.Day == request.CheckOut.Day && request.CheckIn.Hour < request.CheckOut.Hour ||
-                request.CheckIn.Day < request.CheckOut.Day)
+                var order = await _orderRepository.GetQuery(i => i.Id == request.Id).SingleOrDefaultAsync();
+                if (user != null && order != null)
                 {
-                    order.CheckIn = request.CheckIn;
-                    order.CheckOut = request.CheckOut;
-                    order.RoomId = request.RoomId;
-                    _orderRepository.Update(order);
-                    return await _orderRepository.SaveChangesAsync();
+                    if (request.CheckIn.Day == request.CheckOut.Day && request.CheckIn.Hour < request.CheckOut.Hour ||
+                    request.CheckIn.Day < request.CheckOut.Day)
+                    {
+                        order.CheckIn = request.CheckIn;
+                        order.CheckOut = request.CheckOut;
+                        order.RoomId = request.RoomId;
+                        _orderRepository.Update(order);
+                        return await _orderRepository.SaveChangesAsync();
+                    }
                 }
             }
             return false;

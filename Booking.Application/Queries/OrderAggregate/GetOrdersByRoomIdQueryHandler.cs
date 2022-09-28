@@ -25,7 +25,9 @@ namespace Booking.Application.Queries.OrderAggregate
             {
                 CheckIn = i.CheckIn,
                 CheckOut = i.CheckOut,
-                RoomId = i.RoomId
+                RoomId = i.RoomId,
+                UserId = i.AppUserId
+                
             }).ToList();
         }
     }

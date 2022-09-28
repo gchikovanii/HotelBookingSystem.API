@@ -1,6 +1,6 @@
 ﻿using Booking.Application.Commands.UserAggreagate.AdminAggregate;
-using Booking.Application.Commands.UserAggreagate.ModeratorAggregate;
 using Booking.Application.Commands.UserAggreagate.Roles;
+using Booking.Application.Commands.UsersAggreagate.AdminAggregate;
 using Booking.Application.Commands.UsersAggreagate.UserAggregate;
 using Booking.Application.Queries.UserAggregate;
 using MediatR;

@@ -1,5 +1,6 @@
 ﻿using Booking.Domain.Entities.Base;
 using Booking.Domain.Entities.RoomAggregate;
+using Booking.Domain.Entities.UserAggregate;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,6 +16,7 @@ namespace Booking.Domain.Entities.HotelAggregate
         public string Longtitude { get; set; }
         public string Latitude { get; set; }
         public ICollection<Room> Rooms { get; set; }
+        public ICollection<AppUser> Users { get; set; }
 
     }
 }

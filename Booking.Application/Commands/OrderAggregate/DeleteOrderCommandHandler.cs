@@ -12,17 +12,23 @@ namespace Booking.Application.Commands.OrderAggregate
     public class DeleteOrderCommandHandler : IRequestHandler<DeleteOrderCommand, bool>
     {
         private readonly IOrderRepository _orderRepository;
-        public DeleteOrderCommandHandler(IOrderRepository orderRepository)
+        private readonly IUserRepository _userRepository;
+        public DeleteOrderCommandHandler(IOrderRepository orderRepository, IUserRepository userRepository)
         {
             _orderRepository = orderRepository;
+            _userRepository = userRepository;
         }
         public async Task<bool> Handle(DeleteOrderCommand request, CancellationToken cancellationToken)
         {
-            var order = await _orderRepository.GetQuery(i => i.Id == request.Id).SingleOrDefaultAsync();
-            if(order != null)
+            var user = _userRepository.GetById(request.UserId);
+            if(user != null)
             {
-                _orderRepository.Delete(order);
-                return await _orderRepository.SaveChangesAsync();
+                var order = await _orderRepository.GetQuery(i => i.Id == request.OrderId).SingleOrDefaultAsync();
+                if (order != null)
+                {
+                    _orderRepository.Delete(order);
+                    return await _orderRepository.SaveChangesAsync();
+                }
             }
             return false;
         }

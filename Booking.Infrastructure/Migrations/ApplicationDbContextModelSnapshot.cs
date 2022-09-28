@@ -19,6 +19,21 @@ namespace Booking.Infrastructure.Migrations
                 .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+            modelBuilder.Entity("AppUserHotel", b =>
+                {
+                    b.Property<int>("HotelsId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UsersId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("HotelsId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("AppUserHotel");
+                });
+
             modelBuilder.Entity("Booking.Domain.Entities.HotelAggregate.Hotel", b =>
                 {
                     b.Property<int>("Id")
@@ -56,6 +71,9 @@ namespace Booking.Infrastructure.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<int>("AppUserId")
+                        .HasColumnType("integer");
+
                     b.Property<DateTimeOffset>("CheckIn")
                         .HasColumnType("timestamp with time zone");
 
@@ -66,6 +84,8 @@ namespace Booking.Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
 
                     b.HasIndex("RoomId");
 
@@ -316,13 +336,36 @@ namespace Booking.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("AppUserHotel", b =>
+                {
+                    b.HasOne("Booking.Domain.Entities.HotelAggregate.Hotel", null)
+                        .WithMany()
+                        .HasForeignKey("HotelsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Booking.Domain.Entities.UserAggregate.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Booking.Domain.Entities.OrderAggregate.Order", b =>
                 {
+                    b.HasOne("Booking.Domain.Entities.UserAggregate.AppUser", "AppUser")
+                        .WithMany("Orders")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Booking.Domain.Entities.RoomAggregate.Room", "Room")
                         .WithMany("Orders")
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("AppUser");
 
                     b.Navigation("Room");
                 });
@@ -411,6 +454,8 @@ namespace Booking.Infrastructure.Migrations
             modelBuilder.Entity("Booking.Domain.Entities.UserAggregate.AppUser", b =>
                 {
                     b.Navigation("AppUserRoles");
+
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

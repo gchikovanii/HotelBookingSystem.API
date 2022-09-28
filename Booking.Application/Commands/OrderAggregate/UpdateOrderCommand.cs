@@ -11,5 +11,6 @@ namespace Booking.Application.Commands.OrderAggregate
         public DateTimeOffset CheckIn { get; set; }
         public DateTimeOffset CheckOut { get; set; }
         public int RoomId { get; set; }
+        public int UserId { get; set; }
     }
 }
