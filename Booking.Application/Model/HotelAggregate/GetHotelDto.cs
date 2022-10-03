@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Booking.Application.Model.MediaAggregate;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -13,5 +14,6 @@ namespace Booking.Application.Model.HotelAggregate
         public double MinPrice { get; set; }
         public string Longtitude { get; set; }
         public string Latitude { get; set; }
+        public List<GetHotelImageDto> Images { get; set; }
     }
 }

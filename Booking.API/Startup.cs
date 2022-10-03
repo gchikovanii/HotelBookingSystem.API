@@ -1,5 +1,8 @@
+using Booking.Application.ConfigurationOptions;
 using Booking.Application.Services.Abstraction.HotelAggregate;
+using Booking.Application.Services.Abstraction.MediaAggreagete;
 using Booking.Application.Services.Implementation.HotelAggregate;
+using Booking.Application.Services.Implementation.MediaAggreagete;
 using Booking.Domain.Entities.UserAggregate;
 using Booking.Infrastructure.Context;
 using Booking.Infrastructure.Repository.Abstraction;
@@ -37,12 +40,15 @@ namespace Booking.API
             services.AddSwaggerGen();
             services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnectionString")));
             services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
+            services.Configure<CloudinarySetting>(Configuration.GetSection("CloudinarySettings"));
             services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddScoped<IHotelService, HotelService>();
+            services.AddScoped<ICloudinaryService, CloudinaryService>();
             services.AddTransient<IHotelRepository, HotelRepository>();
             services.AddTransient<IRoomRepository, RoomRepository>();
             services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddTransient<IUserRepository,UserRepository>();
+            services.AddTransient<IHotelImageRepository, HotelImageRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

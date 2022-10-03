@@ -64,6 +64,29 @@ namespace Booking.Infrastructure.Migrations
                     b.ToTable("Hotels");
                 });
 
+            modelBuilder.Entity("Booking.Domain.Entities.HotelAggregate.HotelImages", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int>("HotelId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("PublicId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HotelId");
+
+                    b.ToTable("HotelImages");
+                });
+
             modelBuilder.Entity("Booking.Domain.Entities.OrderAggregate.Order", b =>
                 {
                     b.Property<int>("Id")
@@ -351,6 +374,17 @@ namespace Booking.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Booking.Domain.Entities.HotelAggregate.HotelImages", b =>
+                {
+                    b.HasOne("Booking.Domain.Entities.HotelAggregate.Hotel", "Hotel")
+                        .WithMany("Images")
+                        .HasForeignKey("HotelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Hotel");
+                });
+
             modelBuilder.Entity("Booking.Domain.Entities.OrderAggregate.Order", b =>
                 {
                     b.HasOne("Booking.Domain.Entities.UserAggregate.AppUser", "AppUser")
@@ -438,6 +472,8 @@ namespace Booking.Infrastructure.Migrations
 
             modelBuilder.Entity("Booking.Domain.Entities.HotelAggregate.Hotel", b =>
                 {
+                    b.Navigation("Images");
+
                     b.Navigation("Rooms");
                 });
 

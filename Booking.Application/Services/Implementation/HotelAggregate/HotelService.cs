@@ -1,4 +1,5 @@
 ﻿using Booking.Application.Model.HotelAggregate;
+using Booking.Application.Model.MediaAggregate;
 using Booking.Application.Services.Abstraction.HotelAggregate;
 using Booking.Domain.Entities.HotelAggregate;
 using Booking.Domain.Entities.RoomAggregate;
@@ -22,7 +23,7 @@ namespace Booking.Application.Services.Implementation.HotelAggregate
 
         public async Task<List<GetHotelDto>> GetHotelById(int id)
         {
-            var hotel = _hotelRepository.GetQuery(i => i.Id == id);
+            var hotel = _hotelRepository.GetQuery(i => i.Id == id).Include(i => i.Images);
             return await hotel.Select(i => new GetHotelDto
             {
                 Id = i.Id,
@@ -31,13 +32,18 @@ namespace Booking.Application.Services.Implementation.HotelAggregate
                 Latitude = i.Latitude,
                 Longtitude = i.Longtitude,
                 MaxPrice = i.MaxPrice,
-                MinPrice = i.MinPrice
+                MinPrice = i.MinPrice,
+                Images = i.Images.Select(o => new GetHotelImageDto()
+                {
+                    PublicId = o.PublicId,
+                    Url = o.Url
+                }).ToList()
             }).ToListAsync();   
         }
                                                            
         public async Task<List<GetHotelDto>> GetHotels(int page, int pageSize)
         {
-            var hotels =  _hotelRepository.GetQuery().Skip((page -1)  * pageSize).Take(pageSize);
+            var hotels = _hotelRepository.GetQuery().Skip((page - 1) * pageSize).Take(pageSize).Include(i => i.Images);
             return await hotels.Select(i => new GetHotelDto
             {
                 Id = i.Id,
@@ -46,7 +52,12 @@ namespace Booking.Application.Services.Implementation.HotelAggregate
                 Latitude = i.Latitude,
                 Longtitude = i.Longtitude,
                 MaxPrice = i.MaxPrice,
-                MinPrice = i.MinPrice
+                MinPrice = i.MinPrice,
+                Images = i.Images.Select(o => new GetHotelImageDto()
+                {
+                    PublicId = o.PublicId,
+                    Url = o.Url
+                }).ToList()
             }).ToListAsync();
         }
 

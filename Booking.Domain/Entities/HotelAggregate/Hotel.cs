@@ -17,6 +17,7 @@ namespace Booking.Domain.Entities.HotelAggregate
         public string Latitude { get; set; }
         public ICollection<Room> Rooms { get; set; }
         public ICollection<AppUser> Users { get; set; }
+        public ICollection<HotelImages> Images { get; set; }
 
     }
 }
