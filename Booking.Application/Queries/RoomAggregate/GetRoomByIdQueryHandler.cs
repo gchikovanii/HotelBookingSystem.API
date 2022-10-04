@@ -1,9 +1,11 @@
-﻿using Booking.Application.Model.RoomAggregate;
+﻿using Booking.Application.Model.MediaAggregate;
+using Booking.Application.Model.RoomAggregate;
 using Booking.Infrastructure.Repository.Abstraction;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,7 +21,7 @@ namespace Booking.Application.Queries.RoomAggregate
         }
         public async Task<RoomDto> Handle(GetRoomByIdQuery request, CancellationToken cancellationToken)
         {
-            var room = await _roomRepository.GetQuery(i => i.Id == request.Id).FirstOrDefaultAsync();
+            var room = await _roomRepository.GetQuery(i => i.Id == request.Id).Include(i => i.Images).FirstOrDefaultAsync();
             if(room != null)
             {
                 return new RoomDto()
@@ -34,7 +36,12 @@ namespace Booking.Application.Queries.RoomAggregate
                     MiniBar = room.MiniBar,
                     RoomType = room.RoomType,
                     TV = room.TV,
-                    HotelId = room.HotelId
+                    HotelId = room.HotelId,
+                    Images = room.Images.Select(o => new RoomImagesDto()
+                    {
+                        PublicId = o.PublicId,
+                        Url = o.Url
+                    }).ToList()
                 };
             }
             return null;

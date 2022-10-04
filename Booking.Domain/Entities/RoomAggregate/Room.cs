@@ -23,5 +23,6 @@ namespace Booking.Domain.Entities.RoomAggregate
         public int HotelId { get; set; }
         public Hotel Hotel { get; set; }
         public ICollection<Order> Orders { get; set; }
+        public ICollection<RoomImages> Images { get; set; }
     }
 }

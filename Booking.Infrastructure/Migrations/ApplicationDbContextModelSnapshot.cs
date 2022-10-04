@@ -164,6 +164,29 @@ namespace Booking.Infrastructure.Migrations
                     b.ToTable("Rooms");
                 });
 
+            modelBuilder.Entity("Booking.Domain.Entities.RoomAggregate.RoomImages", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("PublicId")
+                        .HasColumnType("text");
+
+                    b.Property<int>("RoomId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoomId");
+
+                    b.ToTable("RoomImages");
+                });
+
             modelBuilder.Entity("Booking.Domain.Entities.UserAggregate.AppRole", b =>
                 {
                     b.Property<int>("Id")
@@ -415,6 +438,17 @@ namespace Booking.Infrastructure.Migrations
                     b.Navigation("Hotel");
                 });
 
+            modelBuilder.Entity("Booking.Domain.Entities.RoomAggregate.RoomImages", b =>
+                {
+                    b.HasOne("Booking.Domain.Entities.RoomAggregate.Room", "Room")
+                        .WithMany("Images")
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Room");
+                });
+
             modelBuilder.Entity("Booking.Domain.Entities.UserAggregate.AppUserRole", b =>
                 {
                     b.HasOne("Booking.Domain.Entities.UserAggregate.AppRole", "AppRole")
@@ -479,6 +513,8 @@ namespace Booking.Infrastructure.Migrations
 
             modelBuilder.Entity("Booking.Domain.Entities.RoomAggregate.Room", b =>
                 {
+                    b.Navigation("Images");
+
                     b.Navigation("Orders");
                 });
 

@@ -1,4 +1,5 @@
-﻿using Booking.Application.Model.RoomAggregate;
+﻿using Booking.Application.Model.MediaAggregate;
+using Booking.Application.Model.RoomAggregate;
 using MediatR;
 using System;
 using System.Collections.Generic;

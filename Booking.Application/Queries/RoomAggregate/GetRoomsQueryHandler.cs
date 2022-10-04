@@ -1,4 +1,5 @@
-﻿using Booking.Application.Model.RoomAggregate;
+﻿using Booking.Application.Model.MediaAggregate;
+using Booking.Application.Model.RoomAggregate;
 using Booking.Infrastructure.Repository.Abstraction;
 using Booking.Infrastructure.Repository.Implementation;
 using MediatR;
@@ -22,7 +23,7 @@ namespace Booking.Application.Queries.RoomAggregate
 
         public async Task<List<RoomDto>> Handle(GetRoomsQuery request, CancellationToken cancellationToken)
         {
-            var rooms = await _roomRepository.GetQuery().ToListAsync();
+            var rooms = await _roomRepository.GetQuery().Include(i => i.Images).ToListAsync();
             return rooms.Select(i => new RoomDto()
             {
                 Id = i.Id,
@@ -35,7 +36,12 @@ namespace Booking.Application.Queries.RoomAggregate
                 MiniBar = i.MiniBar,
                 RoomType = i.RoomType,
                 TV = i.TV,
-                HotelId = i.HotelId
+                HotelId = i.HotelId,
+                Images = i.Images.Select(o => new RoomImagesDto()
+                {
+                    PublicId = o.PublicId,
+                    Url = o.Url
+                }).ToList()
             }).ToList();
         }
     }

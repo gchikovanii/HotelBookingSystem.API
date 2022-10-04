@@ -1,4 +1,5 @@
-﻿using Booking.Domain.Entities.Constant;
+﻿using Booking.Application.Model.MediaAggregate;
+using Booking.Domain.Entities.Constant;
 using Booking.Domain.Entities.HotelAggregate;
 using Booking.Domain.Entities.OrderAggregate;
 using System;
@@ -21,5 +22,6 @@ namespace Booking.Application.Model.RoomAggregate
         public RoomType RoomType { get; set; }
         public int NumberOfRooms { get; set; }
         public int HotelId { get; set; }
+        public List<RoomImagesDto> Images { get; set; }
     }
 }

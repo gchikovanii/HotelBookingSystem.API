@@ -49,6 +49,7 @@ namespace Booking.API
             services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddTransient<IUserRepository,UserRepository>();
             services.AddTransient<IHotelImageRepository, HotelImageRepository>();
+            services.AddTransient<IRoomImagesRepository, RoomImagesRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

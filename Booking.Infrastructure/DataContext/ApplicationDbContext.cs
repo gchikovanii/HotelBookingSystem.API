@@ -22,6 +22,7 @@ namespace Booking.Infrastructure.Context
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<HotelImages> HotelImages { get; set; }
+        public DbSet<RoomImages> RoomImages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -29,11 +30,13 @@ namespace Booking.Infrastructure.Context
             builder.Entity<Hotel>().HasKey(i => i.Id);
             builder.Entity<Room>().HasKey(i => i.Id);
             builder.Entity<Order>().HasKey(i => i.Id);
-            builder.Entity<HotelImages>().HasKey(I => I.Id);
+            builder.Entity<HotelImages>().HasKey(i => i.Id);
+            builder.Entity<RoomImages>().HasKey(i => i.Id);
             builder.Entity<Room>().Property(i => i.BedType).HasConversion<string>();
             builder.Entity<Room>().Property(i => i.RoomType).HasConversion<string>();
 
             builder.Entity<HotelImages>().ToTable("HotelImages");
+            builder.Entity<RoomImages>().ToTable("RoomImages");
 
             builder.Entity<Hotel>()
                 .HasMany(i => i.Rooms)
@@ -67,6 +70,11 @@ namespace Booking.Infrastructure.Context
                 .HasMany(i => i.Images)
                 .WithOne(i => i.Hotel)
                 .HasForeignKey(i => i.HotelId);
+
+            builder.Entity<Room>()
+                .HasMany(i => i.Images)
+                .WithOne(i => i.Room)
+                .HasForeignKey(i => i.RoomId);
 
         }
 

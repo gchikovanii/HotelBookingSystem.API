@@ -1,4 +1,5 @@
-﻿using Booking.Application.Services.Abstraction.MediaAggreagete;
+﻿using Booking.Application.Filters;
+using Booking.Application.Services.Abstraction.MediaAggreagete;
 using Booking.Infrastructure.Repository.Abstraction;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Booking.Application.Commands.MediaAggregate
+namespace Booking.Application.Commands.MediaAggregate.HotelAggregate
 {
     public class DeleteHotelImageCommandHandler : IRequestHandler<DeleteHotelImageCommand, bool>
     {
@@ -22,16 +23,15 @@ namespace Booking.Application.Commands.MediaAggregate
         }
         public async Task<bool> Handle(DeleteHotelImageCommand request, CancellationToken cancellationToken)
         {
-            var imageExist = await _imageRepository.GetQuery(i => i.Id == request.ImageId).SingleOrDefaultAsync();
-            if (imageExist != null)
-            {
-                var result = await _cloudinaryService.DeleteImage(imageExist.PublicId);
-                _imageRepository.Delete(imageExist);
-                return true;
-            }
-            else
-                return false;
-            
+            var hotelImage = await _imageRepository.GetQuery(i => i.Id == request.HotelImageId).FirstOrDefaultAsync();
+            var imageResult = await _cloudinaryService.DeleteImage(hotelImage.PublicId);
+            _imageRepository.Delete(hotelImage);
+            var result = await _imageRepository.SaveChangesAsync();
+            if (imageResult == null)
+                throw new ImageNotDeletedException("Image has not been deleted from cloudinary" + (result == true ? "Image Deleted from database" : "Image has not been deleted from" +
+                    "database!"));
+            return result;
+
         }
     }
 }

@@ -2298,7 +2298,10 @@
         },
         "runtime": {
           "bin/placeholder/Booking.Application.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "Booking.Domain/1.0.0": {
         "type": "project",

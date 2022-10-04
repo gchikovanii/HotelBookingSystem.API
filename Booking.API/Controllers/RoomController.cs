@@ -29,7 +29,7 @@ namespace Booking.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateRoom([FromForm] CreateRoomCommand input)
+        public async Task<IActionResult> CreateRoom([FromBody] CreateRoomCommand input)
         {
             var result = await _mediator.Send(input);
             return Ok(result);

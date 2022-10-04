@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Booking.Application.Commands.MediaAggregate
+namespace Booking.Application.Commands.MediaAggregate.RoomAggregate
 {
-    public class UploadHotelImagesCommand : IRequest<bool>
+    public class UploadRoomImagesCommand : IRequest<bool>
     {
-        public int HotelId { get; set; }
+        public int RoomId { get; set; }
         public IFormFile File { get; set; }
     }
 }
