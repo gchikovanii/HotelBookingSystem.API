@@ -1,5 +1,7 @@
-﻿using Booking.Application.Model.HotelAggregate;
+﻿using Booking.API.Constants;
+using Booking.Application.Model.HotelAggregate;
 using Booking.Application.Services.Abstraction.HotelAggregate;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -39,6 +41,7 @@ namespace Booking.API.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = UserType.AdminUser)]
         public async Task<IActionResult> CreateHotel(CreateHotelDto input)
         {
             var result = await _hotelService.CreateHotel(input);

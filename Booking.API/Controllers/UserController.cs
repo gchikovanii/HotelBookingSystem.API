@@ -1,9 +1,11 @@
-﻿using Booking.Application.Commands.UserAggreagate.AdminAggregate;
+﻿using Booking.API.Constants;
+using Booking.Application.Commands.UserAggreagate.AdminAggregate;
 using Booking.Application.Commands.UserAggreagate.Roles;
 using Booking.Application.Commands.UsersAggreagate.AdminAggregate;
 using Booking.Application.Commands.UsersAggreagate.UserAggregate;
 using Booking.Application.Queries.UserAggregate;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -33,24 +35,28 @@ namespace Booking.API.Controllers
         {
             return Ok(await _mediator.Send(input));
         }
+        [Authorize(Roles = UserType.Admin)]
 
         [HttpPost(nameof(CreateRole))]
         public async Task<IActionResult> CreateRole([FromForm]CreateRoleCommand input)
         {
             return Ok(await _mediator.Send(input));
         }
+        [Authorize(Roles = UserType.Admin)]
 
         [HttpPost(nameof(CreateAdmin))]
         public async Task<IActionResult> CreateAdmin(CreateUserAdminCommand input)
         {
             return Ok(await _mediator.Send(input));
         }
+        [Authorize(Roles = UserType.Admin)]
 
         [HttpPost(nameof(CreateModerator))]
         public async Task<IActionResult> CreateModerator(CreateModeratorCommand input)
         {
             return Ok(await _mediator.Send(input));
         }
+        [Authorize(Roles = UserType.AdminModerator)]
 
         [HttpPost(nameof(CreateUser))]
         public async Task<IActionResult> CreateUser(CreateUserCommand input)
