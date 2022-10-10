@@ -1,2 +1,3 @@
 # HotelBookingSystem.API
-Booking hotel system
+This is an api for booking rooms in hotel!
+
